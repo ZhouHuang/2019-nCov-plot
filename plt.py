@@ -8,6 +8,7 @@ for 2019-nCov data analysis
 """
 import os
 import matplotlib.pyplot as plt
+from matplotlib.pylab import date2num
 import numpy as np
 import pandas
 
@@ -33,16 +34,27 @@ def get_municipalities_count(cin_name,date):
 
         for city in bf:
             #print(city)
-            if cin_name == city[-2]:
-                #print(city)
-                confirmed_count = city[-6]
-                suspected_count = city[-1]
-                cured_count = city[-5]
-                dead_count = city[-4]
-                city_name = city[-2]
-                
-                total_count = confirmed_count + suspected_count + cured_count + dead_count
-                
+            if date > '20200131' :
+                if cin_name == city[1]:
+                    print(city)
+                    confirmed_count = city[2]
+                    suspected_count = city[4]
+                    cured_count = city[3]
+                    dead_count = city[5]
+                    city_name = city[1]
+                    
+                    total_count = confirmed_count + suspected_count + cured_count + dead_count
+            else :  
+                if cin_name == city[1]:
+                    #print(city)
+                    confirmed_count = city[2]
+                    suspected_count = city[4]
+                    cured_count = city[5]
+                    dead_count = city[3]
+                    city_name = city[1]
+                    
+                    total_count = confirmed_count + suspected_count + cured_count + dead_count
+            
                 #print('city:{},confirmed:{},total:{}'.format(city_name,confirmed_count,total_count))
     finally:
         return (confirmed_count,total_count)
@@ -62,20 +74,32 @@ def get_city_count(cin_name,date):
             if date in j_file:
                 #print(j_file)
                 df = pandas.read_json('./data/{}'.format(j_file),encoding='utf-8')
-                #print(df.iloc[32])
+                #print(df.iloc[32,7])
                 #print(df.values)
         for province in range(0,34):
-            for city in df.iloc[province,0]:
-                if cin_name == city['cityName']:
-                    #print(city)
-                    confirmed_count = city['confirmedCount'] 
-                    suspected_count = city['suspectedCount'] 
-                    cured_count = city['curedCount']
-                    dead_count = city['deadCount']
-                    city_name = city['cityName']
-                    
-                    total_count = confirmed_count + suspected_count + cured_count + dead_count
-                    
+            if date > '20200131':
+                for city in df.iloc[province,8]:
+                    if cin_name == city['cityName']:
+                        #print(city)
+                        confirmed_count = city['confirmedCount'] 
+                        suspected_count = city['suspectedCount'] 
+                        cured_count = city['curedCount']
+                        dead_count = city['deadCount']
+                        city_name = city['cityName']
+                        
+                        total_count = confirmed_count + suspected_count + cured_count + dead_count
+            else :        
+                for city in df.iloc[province,7]:
+                    if cin_name == city['cityName']:
+                        #print(city)
+                        confirmed_count = city['confirmedCount'] 
+                        suspected_count = city['suspectedCount'] 
+                        cured_count = city['curedCount']
+                        dead_count = city['deadCount']
+                        city_name = city['cityName']
+                        
+                        total_count = confirmed_count + suspected_count + cured_count + dead_count
+            
                     #print('city:{},confirmed:{},total:{}'.format(city_name,confirmed_count,total_count))
     finally:
         return (confirmed_count,total_count)
@@ -111,8 +135,13 @@ def plot_delta(li1, city):
 def main():
     city_list = ['武汉','温州','深圳','广州','黄冈','孝感']
     municipalities = ['北京','上海','重庆','香港','澳门','台湾']
+    #city_list = ['荆州']
+    #municipalities = ['上海']
+    
     global date_list
-    date_list = ['20200126','20200127','20200128','20200129','20200130']
+    #date_list = ['20200130']
+    date_list = ['20200126','20200127','20200128','20200129',
+                 '20200130','20200131','20200201','20200202']
     #print(get_city_count_temp(city_list[4],date_list[1]))
     confirm = {}
     
@@ -134,8 +163,8 @@ def main():
     print(confirm)
     
     fig = plt.figure()
-    #ax1 = fig.add_axes([0.1, 0.1, 0.8, 1.8])
-    ax1 = fig.add_axes([0.1, 0.1, 0.8, 0.8],ylim=(0,400))
+    ax1 = fig.add_axes([0.1, 0.1, 0.8, 1.8])
+    #ax1 = fig.add_axes([0.1, 0.1, 0.8, 0.8],ylim=(0,300))
     ax1.grid()
     ax1.axhline(y=200, ls='--', c='r') #threshold
     #plt.yscale('log', nonposy='clip')

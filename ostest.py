@@ -16,3 +16,13 @@ fig, ax = plt.subplots()
 ax.plot(x, np.sin(x), label='sin')
 ax.plot(x, np.cos(x), '--', label='cos')
 ax.legend(loc='upper left', frameon=False);
+
+
+files = os.listdir(os.path.abspath('data'))
+for j_file in files:
+    if '20200201' in j_file:
+        #print(j_file)
+        df = pandas.read_json('./data/{}'.format(j_file),encoding='utf-8')
+        #print(df.iloc[:,6])
+        bf = np.array(df).tolist()
+        print(df.iloc[1,-2] == '上海')
