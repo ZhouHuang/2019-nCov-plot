@@ -133,15 +133,17 @@ def plot_delta(li1, city):
     
     
 def main():
-    city_list = ['武汉','温州','深圳','广州','黄冈','孝感']
-    municipalities = ['北京','上海','重庆','香港','澳门','台湾']
-    #city_list = ['荆州']
-    #municipalities = ['上海']
+    #city_list = ['武汉','温州','深圳','广州','黄冈','孝感']
+    #municipalities = ['北京','上海','重庆','香港','澳门','台湾']
+    city_list = ['荆州','温州','黄冈','孝感','深圳','广州','天门','潜江']
+    municipalities = ['上海','北京','重庆']
     
     global date_list
-    #date_list = ['20200130']
+    #date_list = ['20200126','20200127','20200128','20200129','20200130',
+    #             '20200131','20200201','20200202','20200203']
     date_list = ['20200126','20200127','20200128','20200129',
-                 '20200130','20200131','20200201','20200202']
+                 '20200130','20200131','20200201','20200202',
+                 '20200203','20200204','20200205','20200206']
     #print(get_city_count_temp(city_list[4],date_list[1]))
     confirm = {}
     
@@ -163,8 +165,8 @@ def main():
     print(confirm)
     
     fig = plt.figure()
-    ax1 = fig.add_axes([0.1, 0.1, 0.8, 1.8])
-    #ax1 = fig.add_axes([0.1, 0.1, 0.8, 0.8],ylim=(0,300))
+    #ax1 = fig.add_axes([0.1, 0.1, 0.8, 1.8])
+    ax1 = fig.add_axes([0.1, 0.1, 0.8, 0.8],ylim=(0,100))
     ax1.grid()
     ax1.axhline(y=200, ls='--', c='r') #threshold
     #plt.yscale('log', nonposy='clip')
